@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Books at {{ session.library_name }}</h2>
+
+<form method="GET" class="search">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search by title, author, or genre">
+  <button type="submit">Search</button>
+  {% if q %}<a href="{{ url_for('books') }}" class="clear">Clear</a>{% endif %}
+</form>
+
+{% if books %}
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Genre</th>
+      <th>Year</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in books %}
+    <tr>
+      <td>{{ b.Title }}</td>
+      <td>{{ b.AuthorFirstName }} {{ b.AuthorLastName }}</td>
+      <td>{{ b.Genre }}</td>
+      <td>{{ b.PublicationYear }}</td>
+      <td><span class="status status-{{ b.AvailabilityStatus|lower }}">{{ b.AvailabilityStatus }}</span></td>
+      <td><a href="{{ url_for('book', book_id=b.BookID) }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p class="muted">{{ books|length }} book{{ '' if books|length == 1 else 's' }}</p>
+{% else %}
+<p>No books found{% if q %} matching "{{ q }}"{% endif %}.</p>
+{% endif %}
+{% endblock %}

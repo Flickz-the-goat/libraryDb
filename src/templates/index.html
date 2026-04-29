@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Sign in</h2>
+<form method="POST">
+  <label>
+    Email
+    <input type="email" name="email" required placeholder="jdoe@email.com">
+  </label>
+  <label>
+    Library
+    <input type="text" name="library" required placeholder="East Broad Library">
+  </label>
+  <button type="submit">Continue</button>
+</form>
+
+<div class="hint">
+  <p><strong>Demo accounts</strong></p>
+  <ul>
+    <li>jdoe@email.com — John Doe</li>
+    <li>asmith@email.com — Alice Smith</li>
+    <li>bstookey@email.com — Bob Stookey</li>
+  </ul>
+  <p><strong>Libraries</strong></p>
+  <ul>
+    <li>East Broad Library</li>
+    <li>Hawksworth Baltimore Library</li>
+  </ul>
+</div>
+{% endblock %}

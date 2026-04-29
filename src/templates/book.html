@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="{{ url_for('books') }}">&larr; Back to books</a></p>
+
+<h2>{{ book.Title }}</h2>
+<p class="byline">by {{ book.AuthorFirstName }} {{ book.AuthorLastName }}</p>
+
+<dl>
+  <dt>Genre</dt>          <dd>{{ book.Genre }}</dd>
+  <dt>ISBN</dt>           <dd>{{ book.ISBN }}</dd>
+  <dt>Publisher</dt>      <dd>{{ book.Publisher }} ({{ book.PublicationYear }})</dd>
+  <dt>Pages</dt>          <dd>{{ book.NumPages }}</dd>
+  <dt>Language</dt>       <dd>{{ book.LanguageUsed }}</dd>
+  <dt>Status</dt>         <dd><span class="status status-{{ book.AvailabilityStatus|lower }}">{{ book.AvailabilityStatus }}</span></dd>
+  {% if book.Summary %}
+  <dt>Summary</dt>        <dd>{{ book.Summary }}</dd>
+  {% endif %}
+</dl>
+
+{% if book.AvailabilityStatus == "Available" %}
+  <form method="POST" action="{{ url_for('checkout', book_id=book.BookID) }}">
+    <button type="submit" class="primary">Check out</button>
+  </form>
+{% else %}
+  <p class="muted">This book is currently {{ book.AvailabilityStatus|lower }}.</p>
+{% endif %}
+{% endblock %}

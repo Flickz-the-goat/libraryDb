@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Checkouts</h2>
+
+{% if checkouts %}
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Checked out</th>
+      <th>Due</th>
+      <th>Returned</th>
+      <th>Fine</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in checkouts %}
+    <tr>
+      <td>{{ c.Title }}</td>
+      <td>{{ c.CheckoutDate }}</td>
+      <td>{{ c.DueDate }}</td>
+      <td>{{ c.ReturnDate or '—' }}</td>
+      <td>${{ '%.2f' % (c.FineAmount or 0) }}</td>
+      <td><span class="status status-{{ c.Status|lower }}">{{ c.Status }}</span></td>
+      <td>
+        {% if c.Status != "Returned" %}
+        <form method="POST" action="{{ url_for('ret', checkout_id=c.CheckoutID) }}">
+          <button type="submit">Return</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No checkouts yet. <a href="{{ url_for('books') }}">Browse books</a> to check one out.</p>
+{% endif %}
+{% endblock %}

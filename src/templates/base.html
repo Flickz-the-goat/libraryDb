@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1><a href="{{ url_for('home') }}">📚 Library System</a></h1>
+    {% if session.user_id %}
+      <nav>
+        <span class="who">{{ session.user_name }} &middot; {{ session.library_name }}</span>
+        <a href="{{ url_for('books') }}">Browse</a>
+        <a href="{{ url_for('my_checkouts') }}">My Checkouts</a>
+        <a href="{{ url_for('logout') }}">Sign out</a>
+      </nav>
+    {% endif %}
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
